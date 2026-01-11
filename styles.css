@@ -1,0 +1,207 @@
+
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f4;
+    min-height: 100vh;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+}
+.container{
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    color: #333;
+}
+h1{
+    text-align: center;
+    color: #333;
+}
+.add-task{
+    display: flex;
+    gap: 12px;
+    width: 100%;
+}
+.add-task input{
+    flex: 1;
+    padding: 14px 16px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+}
+.add-task input:focus{
+    border-color: #28a745;
+    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.2);
+}
+.add-task button{
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 14px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    white-space: nowrap;
+    transition: background-color 0.2s;
+}
+.add-task button:hover{
+    background-color: #218838;
+}
+.add-task button:active{
+    background-color: #1e7e34;
+}
+#taskList{
+    list-style: none;
+    padding: 0;
+}
+
+#taskList li {
+    padding : 15px; 
+    background-color: #f8f9fa;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+    
+}
+
+#taskList li:hover {
+    background-color: #e9ecef;
+}
+#taskList li:last-child {
+    margin-bottom: 0;
+}
+#taskList li button{
+    background-color: #dc3545;
+    color: #fff;
+    padding: 6px 12px;
+    Border-radius : 6px; 
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s;
+    margin-left: 10px;
+}
+#taskList li button:hover {
+    background-color: #c82333;
+}
+#taskList li button:active{
+    background-color: #bd2130;
+}
+#taskList li span {
+    flex: 1;
+    word-wrap: break-word;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.completed {
+    text-decoration: line-through;
+    color: #888;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+    
+}
+.edit-input{
+    flex : 1 ;
+    padding : 8px 12px ;
+    font-size: inherit;
+    font-family: inherit;
+    border: 1px solid #28a745;
+    border-radius: 6px;
+    outline: none;
+    background-color: white;
+    width: 100px;
+    box-sizing: border-box;
+    margin-right: 10px;
+    min-width: 0;
+
+}
+#taskList li.editing{
+    background-color: #fff3cd;
+}
+
+.edit-input:focus {
+    border-color: #218838;
+    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.2);
+}
+#taskList li .edit-btn{
+    background-color: #ffc107;
+    color: #212529;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    margin-left: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+}
+
+#taskList li .edit-btn:hover{
+    background-color: #e0a800;
+    transform: scale(1.08);
+}
+
+#taskList li .edit-btn:active{
+    transform: scale(0.96);
+    background-color: #d39e00;
+}
+.footer-actions {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.clear-btn{
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+
+}
+.clear-btn:hover{
+    background-color: #5a6268;
+}
+.clear-btn:active{
+    background-color: #545b62;
+}
+.clear-btn:disabled{
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.counter{
+    font-size: 14px;
+    color: #666;
+    margin-right:16px ;
+    font-weight: 500;
+}
+
+.counter strong{
+    color: #28a745;
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: translateY(0); }
+    to   { opacity: 0; transform: translateY(8px); }
+}
+
+.task-removing {
+    animation: fadeOut 0.4s ease-out forwards;
+}
