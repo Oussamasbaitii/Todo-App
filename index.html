@@ -2,29 +2,38 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="styles.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo List</title>
+    <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
+
     <div class="container">
-    <h1>Todo</h1>
-    <div class="add-task"><input type="text" id="taskInput" placeholder="Add a new task...">
-     <BUtton id="addBtn">Add Task</BUtton>
+        <h1>Todo</h1>
+
+        <div class="add-task">
+            <input type="text" id="taskInput" placeholder="Add a new task..." autocomplete="off">
+            <button id="addBtn">Add Task</button>
+        </div>
+
+        <ul id="taskList"></ul>
+
+       
+        <div class="footer">
+            <div class="filters">
+                <button data-filter="all" class="filter-btn active">All</button>
+                <button data-filter="active" class="filter-btn">Active</button>
+                <button data-filter="completed" class="filter-btn">Completed</button>
+            </div>
+
+            <div class="footer-info">
+                <span id="tasksCounter" class="counter">0 tasks left</span>
+                <button id="clearCompletedBtn" class="clear-btn">Clear Completed</button>
+            </div>
+        </div>
     </div>
-    
-    <ul id="taskList"></ul>
-
-    <div class="footer-actions">
-        <span id="tasksCounter" class="Counter"></span>
-        <button id="clearCompletedBtn" class="clear-btn">Clear Completed</button>
-
-    </div>
-
-
 
     <script src="script.js"></script>
-</div>
 </body>
 </html>

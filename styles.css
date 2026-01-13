@@ -11,13 +11,14 @@ body{
 }
 .container{
     background-color: #ffffff;
-    padding: 30px;
+    padding: 20px;
     border-radius: 12px;
     width: 400px;
-    max-width: 90%;
+    max-width: 500px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     text-align: center;
     color: #333;
+    margin: 0 auto;
 }
 h1{
     text-align: center;
@@ -162,14 +163,23 @@ h1{
 .footer-actions {
     margin-top: 20px;
     text-align: center;
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-direction: column;
+    
 }
 
 .clear-btn{
+    order: 3;
     background-color: #6c757d;
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
+    padding: 8px 16px;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 16px;
     font-weight: 500;
@@ -187,6 +197,9 @@ h1{
     cursor: not-allowed;
 }
 .counter{
+    order: 2;
+    flex: 1;
+    text-align: center;
     font-size: 14px;
     color: #666;
     margin-right:16px ;
@@ -204,4 +217,48 @@ h1{
 
 .task-removing {
     animation: fadeOut 0.4s ease-out forwards;
+}
+.filter-btn {
+    padding: 8px 18px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    background: #f8f9fa;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+    transition: all 0.2s;
+}
+
+.filter-btn.active {
+    background: #28a745;
+    color: white;
+    border-color: #28a745;
+    box-shadow: 0 2px 6px rgba(40, 167, 69, 0.25);
+}
+.filters {
+    display: flex;
+    gap: 12px;
+    order: 1;
+    margin-bottom: 8px;
+    justify-content: center;
+}
+.footer{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-top: 20px;
+}
+.filter-btn:hover {
+    background: #e9ecef;
+    border-color: #ccc;
+}
+.footer-info{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
 }

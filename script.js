@@ -2,8 +2,11 @@ const input = document.getElementById("taskInput");
 const button = document.getElementById("addBtn");
 const taskList = document.getElementById("taskList");
 const clearCompletedBtn = document.getElementById("clearCompletedBtn");
+const filterButtons = document.querySelectorAll('.filter-btn');
 
 let tasks = [];
+let currentFilter = 'all';
+
 
 function loadTasks() {
     const saved = localStorage.getItem("tasks");
@@ -72,9 +75,18 @@ function startEditing(index) {
 }
 
 function renderTasks() {
+    let tasksToShow = tasks;
     taskList.innerHTML = "";
 
-    tasks.forEach((task, index) => {
+        if (currentFilter === 'active') {
+            tasksToShow = tasks.filter(task => !task.completed);
+        }else if (currentFilter === 'completed') {
+            tasksToShow = tasks.filter(task => task.completed)
+        }
+
+    tasksToShow.forEach((task, index) => {
+
+
         const li = document.createElement("li");
 
         const span = document.createElement("span");
@@ -191,6 +203,18 @@ function updateCounter(){
         counterEl.innerHTML = `<strong>${remaining}</strong> tasks left`;
     }
 }
+
+filterButtons.forEach(btn => {
+    btn.addEventListener('click' , ()=>{
+        filterButtons.forEach(b => b.classList.remove('active'));
+
+        btn.classList.add('active');
+
+        currentFilter = btn.dataset.filter;
+
+        renderTasks();
+    });
+});
 
 loadTasks();
 updateClearButton();
