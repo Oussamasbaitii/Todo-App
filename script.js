@@ -3,9 +3,29 @@ const button = document.getElementById("addBtn");
 const taskList = document.getElementById("taskList");
 const clearCompletedBtn = document.getElementById("clearCompletedBtn");
 const filterButtons = document.querySelectorAll('.filter-btn');
+const themeBtn = document.querySelector('#theme-button')
 
 let tasks = [];
 let currentFilter = 'all';
+
+const savedTheme = localStorage.getItem('theme') || 'light' ;
+document.documentElement.setAttribute('data-theme' , savedTheme);
+
+if (savedTheme === 'dark') {
+    themeBtn.textContent = "☀️ Light Mode"
+};
+
+themeBtn.addEventListener('click' , () =>{
+    let currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark'
+
+    console.log(currentTheme)
+    document.documentElement.setAttribute('data-theme' , newTheme);
+
+    localStorage.setItem('theme' , newTheme);
+
+    themeBtn.textContent = newTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode' ; 
+});
 
 
 function loadTasks() {
@@ -15,11 +35,11 @@ function loadTasks() {
         renderTasks();
     }
     updateClearButton();
-}
+};
 
 function saveTasks() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
-}
+};
 
 function startEditing(index) {
     const task = tasks[index];
