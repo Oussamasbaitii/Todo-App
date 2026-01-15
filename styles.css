@@ -76,7 +76,7 @@ h1{
     border-color: #28a745;
     box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.2);
 }
-.add-task button{
+.add-task .add-btn{
     background-color: #28a745;
     color: white;
     border: none;
@@ -87,15 +87,35 @@ h1{
     white-space: nowrap;
     transition: background-color 0.2s;
 }
-.add-task button:hover{
+.add-task .add-btn:hover{
     background-color: #218838;
 }
-.add-task button:active{
+.add-task .add-btn:active{
     background-color: #1e7e34;
+}
+
+#taskList li .delete-btn{
+    background-color: #dc3545;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius : 6px; 
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s;
+    margin-left: 10px;
+}
+
+#taskList li .delete-btn:hover {
+    background-color: #c82333;
 }
 #taskList{
     list-style: none;
     padding: 0;
+}
+
+#taskList li .delete-btn:active{
+    background-color: #bd2130;
 }
 
 #taskList li {
@@ -116,23 +136,7 @@ h1{
 #taskList li:last-child {
     margin-bottom: 0;
 }
-#taskList li button{
-    background-color: #dc3545;
-    color: #fff;
-    padding: 6px 12px;
-    Border-radius : 6px; 
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.2s;
-    margin-left: 10px;
-}
-#taskList li button:hover {
-    background-color: #c82333;
-}
-#taskList li button:active{
-    background-color: #bd2130;
-}
+
 #taskList li span {
     flex: 1;
     word-wrap: break-word;
@@ -326,3 +330,126 @@ h1{
     background: rgba(128, 128, 128, 0.1);
 }
 
+.pomodoro-btn{
+    background-color:  #ffc107;
+    color: var(--text-color);
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.2s;
+}
+
+.pomodoro-btn:hover{
+    background-color: #c09209;
+}
+
+
+.focus-overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+.focus-overlay.active {
+    display: flex !important;
+}
+
+.pomodoro-focus {
+    background:linear-gradient(135deg, #1e3a8a, #3b82f6);
+    color: white;
+    width: 90%;
+    max-width: 600px;
+    padding: 40px 30px;
+    border-radius: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+    text-align: center;
+    position: relative;
+    animation: fadeInScale 0.6s ease-out;
+}
+
+@keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.85); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.focus-timer{
+    font-size: 140px;
+    font-weight: bold;
+    margin: 30px 0;
+    letter-spacing: 10px;
+    text-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.focus-task-title{
+    font-size: 32px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    opacity: 0.95;
+
+}
+
+.close-focus{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    
+    border: none;
+    color: white;
+    font-size: 32px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.close-focus:hover{
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.focus-btn{
+    padding: 14px 32px;
+    font-size: 18px;
+    font-weight: 500;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.focus-btn.pause {
+    background: #f59e0b;
+    color: white;
+}
+
+.focus-btn:hover{
+    background: #d97706;
+}
+
+.focus-btn.reset{
+    background: #6b7280;
+    color: white;
+}
+
+.focus-btn.reset:hover{
+    background:#4b5563;
+}
+.focus-controls{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}

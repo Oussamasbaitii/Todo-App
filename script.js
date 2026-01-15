@@ -3,10 +3,13 @@ const button = document.getElementById("addBtn");
 const taskList = document.getElementById("taskList");
 const clearCompletedBtn = document.getElementById("clearCompletedBtn");
 const filterButtons = document.querySelectorAll('.filter-btn');
-const themeBtn = document.querySelector('#theme-button')
+const themeBtn = document.querySelector('#theme-button');
 
 let tasks = [];
 let currentFilter = 'all';
+
+
+
 
 const savedTheme = localStorage.getItem('theme') || 'light' ;
 document.documentElement.setAttribute('data-theme' , savedTheme);
@@ -120,6 +123,17 @@ function renderTasks() {
             startEditing(index);
             
         })
+
+        const pomodoroBtn = document.createElement('button');
+        pomodoroBtn.textContent = "🍅";
+        pomodoroBtn.classList.add("pomodoro-btn");
+
+        pomodoroBtn.addEventListener('click' , ()=>{
+            startFocusMode(index);
+        })
+
+        li.appendChild(pomodoroBtn);
+
 
         if (task.completed) {
             span.classList.add("completed");
@@ -238,3 +252,70 @@ filterButtons.forEach(btn => {
 
 loadTasks();
 updateClearButton();
+
+
+
+const focusOverlay = document.getElementById('focusOverlay');
+const focusTaskTitle = document.getElementById('focusTaskTitle');
+const focusTimer = document.getElementById('focusTimer');
+const pauseResumeBtn = document.getElementById('pauseResumeBtn');
+const resetFocusBtn = document.getElementById('resetFocusBtn');
+const closeFocusBtn = document.getElementById('closeFocus');
+
+let currentFocusIndex = null;
+let focusPaused = false;
+
+function startFocusMode(index) {
+    const task = tasks[index];
+    currentFocusIndex = index;
+    focusPaused = false;
+
+    
+    focusTaskTitle.textContent = task.text;
+    focusOverlay.classList.add('active');
+    
+    task.pomodoroTimeLeft = 25 * 60;
+    updateFocusTimerDisplay();  
+
+    pauseResumeBtn.textContent = 'Pause';
+
+    
+    if (!globalTimerInterval) {
+        startGlobalTimer();
+    }
+}
+
+function updateFocusTimerDisplay() {
+    if (currentFocusIndex === null) return;
+    const task = tasks[currentFocusIndex];
+    const minutes = Math.floor(task.pomodoroTimeLeft / 60);
+    const seconds = task.pomodoroTimeLeft % 60;
+    focusTimer.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+}
+
+pauseResumeBtn.addEventListener('click', () => {
+    focusPaused = !focusPaused;
+    pauseResumeBtn.textContent = focusPaused ? 'Resume' : 'Pause';
+});
+
+resetFocusBtn.addEventListener('click', () => {
+    if (confirm("Reset Pomodoro timer?")) {
+        if (currentFocusIndex !== null) {
+            tasks[currentFocusIndex].pomodoroTimeLeft = 0;
+        }
+        closeFocusMode();
+    }
+});
+
+closeFocusBtn.addEventListener('click', closeFocusMode);
+
+function closeFocusMode() {
+    focusOverlay.classList.remove('active');
+    if (currentFocusIndex !== null) {
+        tasks[currentFocusIndex].pomodoroTimeLeft = 0;
+        currentFocusIndex = null;
+    }
+    renderTasks();
+    saveTasks();
+}
+

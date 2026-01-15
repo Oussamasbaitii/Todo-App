@@ -18,7 +18,7 @@
 
         <div class="add-task">
             <input type="text" id="taskInput" placeholder="Add a new task..." autocomplete="off">
-            <button id="addBtn">Add Task</button>
+            <button id="addBtn" class="add-btn">Add Task</button>
         </div>
 
         <ul id="taskList"></ul>
@@ -38,6 +38,20 @@
         </div>
     </div>
 
+    <div class="focus-overlay" id="focusOverlay">
+        <div class="pomodoro-focus">
+            <button class="close-focus" id="closeFocus">×</button>
+            <h2 class="focus-task-title" id="focusTaskTitle"></h2>
+            <div class="focus-timer" id="focusTimer">25:00</div>
+            <div class="focus-controls">
+                <button id="pauseResumeBtn" class="focus-btn pause">Pause</button>
+                <button id="resetFocusBtn" class="focus-btn reset">Reset</button>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
+
+
 </body>
 </html>
