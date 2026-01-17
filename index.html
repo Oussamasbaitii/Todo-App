@@ -18,11 +18,18 @@
 
         <div class="add-task">
             <input type="text" id="taskInput" placeholder="Add a new task..." autocomplete="off">
+
+            <select id="prioritySelect">
+                <option value="low">Low (vert)</option>
+                <option value="medium">medium (jaune)</option>
+                <option value="high">high (rouge)</option>
+            </select>
+
             <button id="addBtn" class="add-btn">Add Task</button>
         </div>
 
         <ul id="taskList"></ul>
-
+        <div id="noTasksMessage" class="no-tasks-message" style="display: none;">No tasks yet - add one! ✏️</div>
        
         <div class="footer">
             <div class="filters">

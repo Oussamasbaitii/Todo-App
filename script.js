@@ -79,7 +79,13 @@ function loadTasks() {
     const saved = localStorage.getItem("tasks");
     if (saved) {
         tasks = JSON.parse(saved);
+
+        tasks = tasks.map(task =>({
+            ...task,
+            priority: task.priority || 'medium',
+        }))
         renderTasks();
+        updateNoTasksMessage();
     }
     updateClearButton();
 };
@@ -159,6 +165,11 @@ function renderTasks() {
         const span = document.createElement("span");
         span.textContent = task.text;
 
+        const priorityBadge = document.createElement('span');
+        priorityBadge.className = 'priority-badge';
+        priorityBadge.classList.add(`priority-${task.priority || 'medium'}`);
+        span.prepend(priorityBadge);
+
         const editbtn = document.createElement("button");
         editbtn.textContent = "✏️";
         editbtn.classList.add("edit-btn")
@@ -211,6 +222,7 @@ function renderTasks() {
 
     updateClearButton();
     updateCounter();
+    updateNoTasksMessage();
 }
 clearCompletedBtn.addEventListener('click' , ()=>{
     const completedCount = tasks.filter(t => t.completed).length;
@@ -252,11 +264,12 @@ function addTask() {
         alert("Enter your Task...");
         return;
     }
-
-    tasks.push({ text: text, completed: false });
+    const priority = document.getElementById('prioritySelect').value;
+    tasks.push({ text: text, completed: false , priority: priority});
 
     renderTasks();
     saveTasks();
+    updateNoTasksMessage();
 
     input.value = "";
 }
@@ -279,6 +292,16 @@ function updateCounter(){
         counterEl.innerHTML = "<strong>1</strong> task left";
     }else {
         counterEl.innerHTML = `<strong>${remaining}</strong> tasks left`;
+    }
+}
+
+function updateNoTasksMessage(){
+    const message = document.getElementById('noTasksMessage');
+    if(tasks.length === 0){
+        message.style.display = 'block';
+
+    }else{
+        message.style.display = 'none';
     }
 }
 
@@ -369,5 +392,6 @@ function closeFocusMode() {
     }
     renderTasks();
     saveTasks();
+    updateNoTasksMessage();
 }
 
