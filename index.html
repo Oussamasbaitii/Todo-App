@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo List</title>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
@@ -45,20 +46,21 @@
         </div>
     </div>
 
-    <div class="focus-overlay" id="focusOverlay">
-        <div class="pomodoro-focus">
-            <button class="close-focus" id="closeFocus">×</button>
-            <h2 class="focus-task-title" id="focusTaskTitle"></h2>
-            <div class="focus-timer" id="focusTimer">25:00</div>
-            <div class="progress-ring">
-                <div class="progress-ring__circle" id="progressCircle"></div>
-            </div>
-            <div class="focus-controls">
-                <button id="pauseResumeBtn" class="focus-btn pause">Pause</button>
-                <button id="resetFocusBtn" class="focus-btn reset">Reset</button>
-            </div>
+<div class="focus-overlay" id="focusOverlay">
+    <div class="pomodoro-focus">
+        <button class="close-focus" id="closeFocus">×</button>
+        <h2 class="focus-task-title" id="focusTaskTitle"></h2>
+        <div class="focus-timer" id="focusTimer">25:00</div>
+        <div class="progress-ring">
+            <div class="progress-ring__circle" id="progressCircle"></div>
+        </div>
+        <div class="focus-controls">
+            <button id="soundToggleBtn" class="focus-btn sound-toggle">🔊 Sound On</button>
+            <button id="pauseResumeBtn" class="focus-btn pause">Pause</button>
+            <button id="resetFocusBtn" class="focus-btn reset">Reset</button>
         </div>
     </div>
+</div>
 
     <script src="script.js"></script>
 

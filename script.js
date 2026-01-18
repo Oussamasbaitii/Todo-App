@@ -1,4 +1,10 @@
 const endSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-complete-or-approved-mission-205.mp3');
+const tickSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-clock-tick-1045.mp3');
+const breakSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3');
+
+tickSound.volume = 0.1;
+endSound.volume = 0.5;
+breakSound.volume = 0.5;
 
 const input = document.getElementById("taskInput");
 const button = document.getElementById("addBtn");
@@ -12,6 +18,34 @@ let currentFilter = 'all';
 let globalTimerInterval = null;
 let currentMode = 'work'
 let breakTimeLeft = 0;  
+let soundEnable = true;
+
+const soundToggleBtn = document.getElementById('soundToggleBtn');
+soundToggleBtn.addEventListener('click', () => {
+    soundEnable = !soundEnable;
+    soundToggleBtn.textContent = soundEnable ? '🔊 Sound On' : '🔇 Sound Off';
+});
+
+    if (soundEnable) {
+        endSound.play().catch(e => console.log("Sound error : " , e))
+    }
+
+
+function showNotification ( title , body){
+    if ("Notification" in window && Notification.permission === "granted") {
+        const notification = new Notification(title , {
+            body: body,
+            icon: "🍅",
+            badge: "🍅",
+            vibrate: [200, 100, 200],
+            requireInteraction: true,
+        });
+
+    }
+    endSound.play().catch(e => console.log("Sound play error:" , e));
+
+    setTimeout(()=> notification.close(),10000);
+}
 
 function startGlobalTimer(){
     if (globalTimerInterval) return;
@@ -29,26 +63,35 @@ function startGlobalTimer(){
         if (task.pomodoroTimeLeft > 0 && !focusPaused) {
             task.pomodoroTimeLeft--;
 
-            if (task.pomodoroTimeLeft <= 0) {
-                task.pomodoroTimeLeft = 0;
-                endSound.play().catch(e => console.log("Sound play error:" , e))
-                
-                
-
-                if (currentMode === 'work' ) {
-                    currentMode = 'break';
-                    task.pomodoroTimeLeft = breakTimeLeft;
-                    focusTaskTitle.textContent = `Break Time! ☕`;
-                    document.querySelector('.pomodoro-focus').style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
-                }else{
-                    alert('Break over! Good job! 🎉');
-                    closeFocusMode();
-                }
-                
-
-                
-
+            if (task.pomodoroTimeLeft <= 10 && soundEnable) {
+                tickSound.play.catch(e => console.log("Tick error:" , e));
             }
+
+if (task.pomodoroTimeLeft <= 0) {
+    task.pomodoroTimeLeft = 0;
+    
+    if (soundEnable) {
+        endSound.play().catch(e => console.log("Sound play error:", e));
+    }
+
+    if (currentMode === 'work') {
+        currentMode = 'break';
+        task.pomodoroTimeLeft = breakTimeLeft;
+        focusTaskTitle.textContent = `Break Time! ☕`;
+        document.querySelector('.pomodoro-focus').style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
+
+        showNotification(
+            "🎉 Work Session Complete!", 
+            `Great job on "${task.text}"! Time for a 5-minute break.`
+        );
+    } else {
+        showNotification(
+            "☕ Break Time Over!", 
+            "Time to get back to work! You've got this!"
+        );
+        closeFocusMode();
+    }
+}
         }
         updateFocusTimerDisplay();
     }, 1000);
@@ -89,6 +132,7 @@ function loadTasks() {
     }
     updateClearButton();
 };
+
 
 function saveTasks() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -218,7 +262,24 @@ function renderTasks() {
 
 
         taskList.appendChild(li);
+
+    
     });
+    new Sortable(taskList , {
+        animation: 150,
+      
+        ghostClass: 'dragging',
+        onEnd: (evt) => {
+            const oldIndex = evt.oldIndex;
+            const newIndex = evt.newIndex;
+
+            const [movedTask] = tasks.splice(oldIndex, 1 );
+            tasks.splice(newIndex, 0 , movedTask );
+
+            saveTasks();
+            renderTasks();
+        }
+    })
 
     updateClearButton();
     updateCounter();
@@ -320,7 +381,11 @@ filterButtons.forEach(btn => {
 loadTasks();
 updateClearButton();
 
-
+if ("Notification" in window) {
+    if (Notification.permission === "default") {
+        Notification.requestPermission();
+    }
+}
 
 const focusOverlay = document.getElementById('focusOverlay');
 const focusTaskTitle = document.getElementById('focusTaskTitle');
@@ -362,7 +427,14 @@ function updateFocusTimerDisplay() {
     const totalSeconds = currentMode === 'work' ? (25 * 60) : breakTimeLeft;
     const progressPercent = 100 - (task.pomodoroTimeLeft / totalSeconds * 100);
 
-    document.getElementById('progressCircle').style.background = `conic-gradient(#2ecc71 0% ${progressPercent}%, transparent ${progressPercent}% 100%)`;
+    const progressCircle = document.getElementById('progressCircle');
+    progressCircle.style.background = `conic-gradient(#2ecc71 0% ${progressPercent}%, transparent ${progressPercent}% 100%)`;
+
+    if (task.pomodoroTimeLeft <= 60 && task.pomodoroTimeLeft > 0) {
+        progressCircle.classList.add('low-time');
+    } else {
+        progressCircle.classList.remove('low-time');
+    }
 }
 
 pauseResumeBtn.addEventListener('click', () => {

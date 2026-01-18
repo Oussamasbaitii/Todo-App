@@ -531,8 +531,27 @@ h1{
     background:#2ecc71;
 }
 
+.dragging {
+    opacity: 0,6;
+    background :  #ffd700 !important  ;
+    transform: scale(1.02);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+#taskList li{
+    cursor: move;
+}
 
 
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.progress-ring__circle.low-time {
+    animation: pulse 1s infinite;
+    border-color: #e74c3c;
+}
 @media (max-width: 768px) {
     .container {
         width: 95%;
