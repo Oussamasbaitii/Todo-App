@@ -12,6 +12,8 @@ const taskList = document.getElementById("taskList");
 const clearCompletedBtn = document.getElementById("clearCompletedBtn");
 const filterButtons = document.querySelectorAll('.filter-btn');
 const themeBtn = document.querySelector('#theme-button');
+const importFile = document.getElementById('importFile');
+const importBtn = document.getElementById('importBtn');
 
 let tasks = [];
 let currentFilter = 'all';
@@ -26,14 +28,66 @@ soundToggleBtn.addEventListener('click', () => {
     soundToggleBtn.textContent = soundEnable ? '🔊 Sound On' : '🔇 Sound Off';
 });
 
-    if (soundEnable) {
-        endSound.play().catch(e => console.log("Sound error : " , e))
-    }
+importBtn.addEventListener('click' , () => importFile.click());
+
+importFile.addEventListener('change' , (event) =>{
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+        try{
+            const importedtasks = JSON.parse(e.target.result);
+            
+
+           
+            tasks = normalizetasks([...tasks , ...importedtasks]);
+
+            saveTasks();
+            renderTasks();
+
+            alert("Tasks imported successfully! 🎉");
+        }catch (err){
+            alert("Invalid JSON file.");
+        }
+    };
+    reader.readAsText(file);
+})
 
 
-function showNotification ( title , body){
+function normalizetasks(rawTasks){
+    return rawTasks.map(task =>({
+        ...task,
+
+        priority: task.priority || 'medium',
+
+        pomodoroTimeLeft: task.pomodoroTimeLeft || 0,
+    }))
+}
+
+function exportTasks(){
+    const jsonString = JSON.stringify(tasks , null , 2);
+
+    const blob = new Blob([jsonString], { type: 'application/json'});
+
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "my-tasks.json"
+
+
+    link.click();
+    URL.revokeObjectURL(url);
+}
+
+document.getElementById('exportBtn').addEventListener('click' , exportTasks);
+
+
+function showNotification(title, body) {
     if ("Notification" in window && Notification.permission === "granted") {
-        const notification = new Notification(title , {
+        const notification = new Notification(title, {
             body: body,
             icon: "🍅",
             badge: "🍅",
@@ -41,10 +95,12 @@ function showNotification ( title , body){
             requireInteraction: true,
         });
 
-    }
-    endSound.play().catch(e => console.log("Sound play error:" , e));
+        if (soundEnable) {
+            endSound.play().catch(e => console.log("Sound play error:", e));
+        }
 
-    setTimeout(()=> notification.close(),10000);
+        setTimeout(() => notification.close(), 10000);
+    }
 }
 
 function startGlobalTimer(){
@@ -70,9 +126,7 @@ function startGlobalTimer(){
 if (task.pomodoroTimeLeft <= 0) {
     task.pomodoroTimeLeft = 0;
     
-    if (soundEnable) {
-        endSound.play().catch(e => console.log("Sound play error:", e));
-    }
+    tickSound.play().catch(e => console.log("Tick error:" , e));
 
     if (currentMode === 'work') {
         currentMode = 'break';
@@ -121,12 +175,9 @@ themeBtn.addEventListener('click' , () =>{
 function loadTasks() {
     const saved = localStorage.getItem("tasks");
     if (saved) {
-        tasks = JSON.parse(saved);
+        tasks = normalizetasks(JSON.parse(saved));
 
-        tasks = tasks.map(task =>({
-            ...task,
-            priority: task.priority || 'medium',
-        }))
+        
         renderTasks();
         updateNoTasksMessage();
     }
