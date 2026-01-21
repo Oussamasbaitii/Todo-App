@@ -542,6 +542,31 @@ h1{
     cursor: move;
 }
 
+.controle-section{
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.controle-btn{
+    flex: 0 0 40%;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 14px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    white-space: nowrap;
+    transition: background-color 0.2s;
+    order: 3;
+}
+
+.controle-btn:hover{
+    background-color:#218838 ;
+}
+
 
 @keyframes pulse {
     0%, 100% { transform: scale(1); }
